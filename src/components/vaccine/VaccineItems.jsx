@@ -1,0 +1,106 @@
+import React from "react";
+
+const VaccineItems = ({ name, date, interval }) => {
+  return (
+    // <div className="card card-side bg-gray-100  shadow-sm">
+    //   <figure className="w-7xl">
+    //     <img
+    //       className=""
+    //       src="https://img.daisyui.com/images/stock/photo-1635805737707-575885ab0820.webp"
+    //       alt="Movie"
+    //     />
+    //   </figure>
+    //   <div className="card-body">
+    //     <h2 className="card-title">{name}</h2>
+    //     <p className="w-1/2">
+    //       Lorem ipsum dolor sit amet consectetur adipisicing elit. Neque ipsam
+    //       assumenda, error aut iure commodi quasi rerum impedit sapiente
+    //       eveniet, dolores, maxime minima perspiciatis blanditiis autem ea
+    //       molestiae ratione sint saepe. Voluptas saepe quidem nostrum asperiores
+    //       repellat pariatur quae voluptatum, veritatis voluptates iste ullam
+    //       voluptatibus sed quas officia aliquam illum.
+    //     </p>
+    //     <p className="font-bold text-shadow-2xs">
+    //       First Dose:
+    //       <span className="px-2 py-1 bg-amber-300 rounded-md shadow-md text-gray-600 ml-3">
+    //         {date}
+    //       </span>
+    //     </p>
+    //     <p className="font-bold text-shadow-2xs">
+    //       Second Dose:
+    //       <span className="bg-info px-2 py-1 rounded-md shadow-sm text-white mx-2">
+    //         {interval} days
+    //       </span>
+    //       after first dose
+    //     </p>
+    //     <div className="card-actions justify-end">
+    //       <button className="btn btn-primary">Book Now!</button>
+    //     </div>
+    //   </div>
+    // </div>
+    <div class="m-5">
+      <div class="group mx-2 mt-10 grid max-w-screen-lg grid-cols-1 space-x-8 overflow-hidden rounded-lg border text-gray-700 shadow transition hover:shadow-lg sm:mx-auto sm:grid-cols-5">
+        <a
+          href="#"
+          class="col-span-2 text-left text-gray-600 hover:text-gray-700"
+        >
+          <div class="group relative h-full w-full overflow-hidden">
+            <img
+              src="https://img.daisyui.com/images/stock/photo-1635805737707-575885ab0820.webp"
+              alt=""
+              class="h-full w-full border-none object-cover text-gray-700 transition group-hover:scale-125"
+            />
+            <span class="absolute top-2 left-2 rounded-full bg-yellow-200 px-2 text-xs font-semibold text-yellow-600">
+              Unity
+            </span>
+            <img
+              src="/images/AnbWyIjnwNbW9Wz6c_cja.svg"
+              class="absolute inset-1/2 w-10 max-w-full -translate-x-1/2 -translate-y-1/2 transition group-hover:scale-125"
+              alt=""
+            />
+          </div>
+        </a>
+        <div class="col-span-3 flex flex-col space-y-3 pr-8 text-left">
+          <a href="#" class="mt-3 overflow-hidden text-2xl font-semibold">
+            {name}
+          </a>
+          <p class="overflow-hidden text-sm">
+            Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam
+            nonummy nibh euismod tincidunt ut laoreet dolore magna .
+          </p>
+          <a
+            href="#"
+            class="text-sm font-semibold text-gray-500 hover:text-gray-700"
+          >
+            Ben Awad
+          </a>
+
+          <div class="flex flex-col space-y-20  text-gray-700 sm:flex-row">
+            <div class="flex h-fit w-full space-x-2 text-sm font-medium">
+              <div class="rounded-full bg-green-100 px-3 py-0.5 text-green-700">
+                {date}
+              </div>
+
+              <div class="rounded-full bg-blue-100 px-3 py-0.5 text-blue-700">
+                {interval} Days
+              </div>
+            </div>
+            {/* <a
+              href="#"
+              class="my-5 rounded-md px-5 py-2 text-center transition hover:scale-105 bg-orange-600 text-white sm:ml-auto"
+            >
+              Book an Appointment
+            </a> */}
+            <div className="mt-10 ">
+              <button className="btn btn-primary my-5 rounded-md px-5 py-2 text-center transition hover:scale-105 text-white sm:ml-auto">
+                Book an Appointment
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default VaccineItems;

@@ -2,7 +2,8 @@ import React from "react";
 import FeatReview from "../../components/Carousel/FeatReview";
 import ServiceCarousel from "../../components/Carousel/ServiceCarousel";
 import HomeFeatures from "../features/HomeFeatures";
-import FAQitems from "./FAQitems";
+import Vaccines from "../Vaccines";
+import FaqSection from "./FaqSection";
 import Hero from "./Hero";
 
 const Home = () => {
@@ -15,7 +16,8 @@ const Home = () => {
       <div className="bg-blue-50 my-10 px-10 py-10">
         <ServiceCarousel />
       </div>
-      <FAQitems />
+      <FaqSection />
+      <Vaccines />
     </div>
   );
 };
