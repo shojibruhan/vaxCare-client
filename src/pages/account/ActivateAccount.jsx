@@ -14,6 +14,7 @@ const ActivateAccount = () => {
       .post("/auth/users/activation/", { uid, token })
       .then((res) => {
         setMessage("You Successfully Create an Account.");
+        console.log(res.data);
         setTimeout(() => {
           navigate("/login");
         }, 3000);

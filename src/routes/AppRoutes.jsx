@@ -21,15 +21,15 @@ const AppRoutes = () => {
         <Route path="register/doctor" element={<DoctorRegistration />} />
         <Route path="register/patient" element={<PatientRegistration />} />
         <Route path="activate/:uid/:token" element={<ActivateAccount />} />
-        <Route
-          path="dashboard"
-          element={
-            <PrivateRoute>
-              <Dashboard />
-            </PrivateRoute>
-          }
-        />
       </Route>
+      <Route
+        path="dashboard"
+        element={
+          <PrivateRoute>
+            <Dashboard />
+          </PrivateRoute>
+        }
+      />
     </Routes>
   );
 };
