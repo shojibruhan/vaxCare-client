@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import apiClient from "../../services/api-client";
+import apiClient from "../services/api-client";
 
 const useFetchDoctors = (currentPage) => {
   const [doctors, setDoctors] = useState([]);

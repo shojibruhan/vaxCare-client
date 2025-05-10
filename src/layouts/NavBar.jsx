@@ -1,7 +1,10 @@
 import React from "react";
 import { Link } from "react-router";
+import useAuthContext from "../hooks/useAuthContext";
 
 const NavBar = () => {
+  const { user, logOutUser } = useAuthContext();
+  // console.log("Navbar: ", user);
   return (
     <div className="navbar bg-primary shadow-sm">
       <div className="navbar-start">
@@ -47,9 +50,7 @@ const NavBar = () => {
           </ul>
         </div>
         <a className="btn btn-ghost text-xs w-18 h-18">
-          {/* <FaVirusCovid /> */}
-
-          <img src="../../icon.svg" alt="" srcset="" />
+          <img src="../../icon.svg" alt="" />
         </a>
       </div>
       <div className="navbar-center hidden lg:flex">
@@ -76,7 +77,33 @@ const NavBar = () => {
         </ul>
       </div>
       <div className="navbar-end">
-        <a className="btn">Button</a>
+        {user ? (
+          <Link onClick={logOutUser} className="btn">
+            Log Out
+          </Link>
+        ) : (
+          <div className="flex flex-row">
+            <div className="dropdown dropdown-hover">
+              <div tabIndex={0} role="button" className="btn m-1 ml-20">
+                Register
+              </div>
+              <ul
+                tabIndex={0}
+                className="dropdown-content menu bg-base-100 rounded-box z-1 w-52 p-2 shadow-sm ml-20"
+              >
+                <li>
+                  <Link to="/register/doctor/">As A Doctor</Link>
+                </li>
+                <li>
+                  <Link to="/register/patient/">As A Patient</Link>
+                </li>
+              </ul>
+            </div>
+            <div className="btn m-1 ml-20">
+              <Link to="/login">Log In</Link>
+            </div>
+          </div>
+        )}
       </div>
     </div>
   );

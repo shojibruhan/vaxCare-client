@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import apiClient from "../../services/api-client";
+import apiClient from "../services/api-client";
 const useFetchVaccines = () => {
   const [vaccines, setVaccine] = useState([]);
   const [isLoading, setLoading] = useState(false);

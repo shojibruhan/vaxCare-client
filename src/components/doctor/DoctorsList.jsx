@@ -1,7 +1,7 @@
 import React, { useState } from "react";
+import useFetchDoctors from "../../hooks/useFetchDoctors";
 import ErrorAlert from "../alert/ErrorAlert";
 import Loading from "../alert/Loading";
-import useFetchDoctors from "../hooks/useFetchDoctors";
 import Pagination from "../pagination/Pagination";
 import DoctorProfile from "./DoctorProfile";
 const DoctorsList = () => {

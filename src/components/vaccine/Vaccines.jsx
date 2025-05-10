@@ -1,7 +1,7 @@
 import React from "react";
+import useFetchVaccines from "../../hooks/useFetchVaccine";
 import ErrorAlert from "../alert/ErrorAlert";
 import Loading from "../alert/Loading";
-import useFetchVaccines from "../hooks/useFetchVaccine";
 import VaccineItems from "./VaccineItems";
 const Vaccines = () => {
   const { isLoading, error, vaccines } = useFetchVaccines();
