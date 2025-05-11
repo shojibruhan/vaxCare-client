@@ -2,10 +2,12 @@ import React from "react";
 import { Route, Routes } from "react-router";
 import DoctorsList from "../components/doctor/DoctorsList";
 import Vaccines from "../components/vaccine/Vaccines";
+import DashboardLayout from "../layouts/DashboardLayout";
 import MainLayout from "../layouts/MainLayout";
 import ActivateAccount from "../pages/account/ActivateAccount";
 import DoctorRegistration from "../pages/account/DoctorRegistration";
 import PatientRegistration from "../pages/account/PatientRegistration";
+import Profile from "../pages/account/Profile";
 import Dashboard from "../pages/dashboard/Dashboard";
 import Home from "../pages/home/Home";
 import LogIn from "../pages/LogIn";
@@ -26,10 +28,13 @@ const AppRoutes = () => {
         path="dashboard"
         element={
           <PrivateRoute>
-            <Dashboard />
+            <DashboardLayout />
           </PrivateRoute>
         }
-      />
+      >
+        <Route index element={<Dashboard />} />
+        <Route path="profile" element={<Profile />} />
+      </Route>
     </Routes>
   );
 };

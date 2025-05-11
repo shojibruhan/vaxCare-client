@@ -15,7 +15,19 @@ const useAuth = () => {
 
   useEffect(() => {
     if (authTokens) fetchUserProfile();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [authTokens]);
+
+  const handleAPIError = (error, defaultMessage) => {
+    if (error.response && error.response.data) {
+      const errorMessage = Object.values(error.response.data).flat().join("\n");
+      setErrorMsg(errorMessage);
+      console.log(errorMessage);
+      return { success: false, message: errorMessage };
+    }
+    setErrorMsg(defaultMessage);
+    return { success: false, message: defaultMessage };
+  };
 
   // Log in user
   const logInUser = async (userData) => {
@@ -45,6 +57,31 @@ const useAuth = () => {
     }
   };
 
+  // Update user Profile
+  const updateUserProfile = async (data) => {
+    setErrorMsg("");
+    try {
+      await apiClient.put("/auth/users/me/", data, {
+        headers: { Authorization: `JWT ${authTokens?.access}` },
+      });
+    } catch (error) {
+      console.log("update error", error);
+    }
+  };
+
+  // Password Change
+  const changePassword = async (data) => {
+    setErrorMsg("");
+    try {
+      await apiClient.post("/auth/users/set_password/", data, {
+        headers: { Authorization: `JWT ${authTokens?.access}` },
+      });
+      console.log("Password Change Successfull");
+    } catch (error) {
+      return handleAPIError(error);
+    }
+  };
+
   // Register A User
   const registerUser = async (userData) => {
     setErrorMsg("");
@@ -57,17 +94,20 @@ const useAuth = () => {
           "Your Registration Complete Successfully. An Activation Code send to your email.",
       };
     } catch (error) {
-      if (error.response && error.response.data) {
-        const errorMessage = Object.values(error.response.data)
-          .flat()
-          .join("\n");
-        setErrorMsg(errorMessage);
-        return {
-          success: false,
-          message: "Registration Failed. Please Try Again.",
-        };
-      }
-      setErrorMsg("Registration Failed. Please Try Again.");
+      //     if (error.response && error.response.data) {
+      //       const errorMessage = Object.values(error.response.data)
+      //         .flat()
+      //         .join("\n");
+      //       setErrorMsg(errorMessage);
+      //       return {
+      //         success: false,
+      //         message: "Registration Failed. Please Try Again.",
+      //       };
+      //     }
+      //     setErrorMsg("Registration Failed. Please Try Again.");
+      //   }
+      // };
+      return handleAPIError(error, "Registration Failed. Try again letter");
     }
   };
 
@@ -84,6 +124,8 @@ const useAuth = () => {
     logInUser,
     registerUser,
     logOutUser,
+    updateUserProfile,
+    changePassword,
   };
 };
 
