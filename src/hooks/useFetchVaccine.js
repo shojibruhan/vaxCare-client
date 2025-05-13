@@ -10,7 +10,7 @@ const useFetchVaccines = () => {
       .get("/vaccines")
       .then((res) => {
         setVaccine(res.data);
-        console.log(res.data);
+        console.log("Vaccine: ", res.data);
       })
       .catch((err) => setError(err.message))
       .finally(() => setLoading(false));

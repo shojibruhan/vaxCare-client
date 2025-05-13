@@ -21,6 +21,8 @@ const Vaccines = () => {
             name={vaccine.vaccine_name}
             date={vaccine.first_dose}
             interval={vaccine.dose_interval}
+            doctor={vaccine.doctor_name}
+            vaccineId={vaccine.id}
           />
         ))}
       {!isLoading && !error && vaccines.length === 0 && (

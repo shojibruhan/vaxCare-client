@@ -12,7 +12,7 @@ const Vaccines = () => {
       .get("/vaccines")
       .then((res) => {
         setVaccine(res.data);
-        console.log(res.data);
+        console.log("Vaccine details: ", res.data);
       })
       .catch((err) => setError(err.message))
       .finally(() => setLoading(false));
@@ -30,14 +30,32 @@ const Vaccines = () => {
       {!isLoading &&
         !error &&
         vaccines.length > 0 &&
-        vaccines.map((vaccine) => (
-          <VaccineItems
-            key={vaccine.id}
-            name={vaccine.vaccine_name}
-            date={vaccine.first_dose}
-            interval={vaccine.dose_interval}
-          />
-        ))}
+        // vaccines.map((vaccine) => (
+        //   // console.log(vaccine)
+        //   <VaccineItems
+        //     key={vaccine.id}
+        //     // vaccine={vaccine}
+        //     name={vaccine.vaccine_name}
+        //     date={vaccine.first_dose}
+        //     interval={vaccine.dose_interval}
+        //     doctor={vaccine.doctor_name}
+        //     vaccineId={vaccine.id}
+        //   />
+        // ))}
+
+        vaccines.map((vaccine) => {
+          console.log("vaccine details:", vaccine); // Check this
+          return (
+            <VaccineItems
+              key={vaccine.id}
+              name={vaccine.vaccine_name}
+              date={vaccine.first_dose}
+              interval={vaccine.dose_interval}
+              doctor={vaccine.doctor_name}
+              vaccineId={vaccine.Id}
+            />
+          );
+        })}
       {!isLoading && !error && vaccines.length === 0 && (
         <p className="px-3 py-2 bg-primary text-white rounded-sm shadow-lg">
           No Vaccine Available

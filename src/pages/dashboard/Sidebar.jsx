@@ -25,7 +25,11 @@ const Sidebar = () => {
     { to: "/patients", icon: FaPerson, label: "Patients" },
     { to: "/patients/add", icon: FaPersonCirclePlus, label: "Add Patients" },
     { to: "/reviews", icon: MdReviews, label: "Reviews" },
-    { to: "/booked", icon: ImCalendar, label: "Booked" },
+    {
+      to: "/dashboard/my-appointment",
+      icon: ImCalendar,
+      label: "My Appointment",
+    },
     { to: "/logout", icon: RiLogoutCircleLine, label: "Log Out" },
   ];
   return (
