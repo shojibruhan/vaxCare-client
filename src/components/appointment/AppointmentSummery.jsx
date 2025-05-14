@@ -1,12 +1,35 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import useAuthContext from "../../hooks/useAuthContext";
+import useBookingContext from "../../hooks/useBookingContext";
 import DashboardProfile from "../../pages/dashboard/profile/DashboardProfile";
 import AppointmentTable from "./AppointmentTable";
 import PriceDetails from "./PriceDetails";
 
 const AppointmentSummery = ({ items }) => {
-  console.log(items);
+  // console.log("items: ", items.vaccine);
   const { user } = useAuthContext();
+  const { getVaccineItem } = useBookingContext();
+  const [vaccine, setVaccine] = useState([]);
+
+  // useEffect(() => {
+  //   // getVaccineItem(items.vaccine);
+  //   const check = getVaccineItem(items.vaccine);
+  //   console.log("items.vac: ", check);
+  //   setVaccine(items.vaccine);
+  // }, [items.vaccine, items, getVaccineItem]);
+  useEffect(() => {
+    const fetchVaccine = async () => {
+      const vaccineData = await getVaccineItem(items.vaccine);
+      // console.log("Fetched vaccine data:", vaccineData);
+      setVaccine(vaccineData); // ✅ Now you're storing the actual vaccine object
+    };
+
+    if (items?.vaccine) {
+      fetchVaccine();
+    }
+  }, [items.vaccine, getVaccineItem]);
+
+  // console.log("check: ", vaccine);
   return (
     <div className="py-14 md:px-1 2xl:px-20 md:container md:mx-auto">
       <div className="flex justify-start item-start space-y-2 flex-col text-primary">
@@ -24,7 +47,7 @@ const AppointmentSummery = ({ items }) => {
             <p className="text-lg md:text-xl dark:text-white font-semibold leading-6 xl:leading-5 text-gray-800">
               Appointment Details
             </p>
-            <AppointmentTable item={items} />
+            <AppointmentTable item={items} vaccine={vaccine} />
             {/* {Array.isArray(items) ? (
               items.map((item) => (
                 <AppointmentTable key={item.id} item={item} />
@@ -35,7 +58,7 @@ const AppointmentSummery = ({ items }) => {
           </div>
           <div className="flex justify-center flex-col md:flex-row  items-stretch w-full space-y-4 md:space-y-0 md:space-x-6 xl:space-x-8">
             {/* Price & Shipping  */}
-            <PriceDetails />
+            <PriceDetails item={items} />
           </div>
         </div>
         {/* Customer Details */}

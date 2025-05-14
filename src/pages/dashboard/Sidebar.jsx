@@ -8,16 +8,31 @@ import {
 } from "react-icons/fa6";
 import { ImCalendar } from "react-icons/im";
 import { IoPersonAddOutline } from "react-icons/io5";
-import { MdReviews, MdVaccines } from "react-icons/md";
+import { MdOutlineDashboard, MdReviews, MdVaccines } from "react-icons/md";
 import { RiLogoutCircleLine } from "react-icons/ri";
 import { TbVaccine } from "react-icons/tb";
 
-import { Link } from "react-router";
+import { Link, useNavigate } from "react-router";
 import Icon from "../../../icon.svg";
+import useAuthContext from "../../hooks/useAuthContext";
 
 const Sidebar = () => {
-  const menuItems = [
+  const { user, logOutUser } = useAuthContext();
+  // const navigate = useNavigate();
+  const navigate = useNavigate();
+
+  const logOut = () => {
+    try {
+      logOutUser();
+      navigate("/login");
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const adminMenus = [
     { to: "/", icon: FaHome, label: "Home" },
+    // { to: "/dashboard", icon: MdOutlineDashboard, label: "Dashboard" },
     { to: "/vaccines", icon: TbVaccine, label: "Vaccines" },
     { to: "/vaccines/add", icon: MdVaccines, label: "Add Vaccines" },
     { to: "/doctors", icon: FaUserDoctor, label: "Doctors" },
@@ -32,6 +47,21 @@ const Sidebar = () => {
     },
     { to: "/logout", icon: RiLogoutCircleLine, label: "Log Out" },
   ];
+  const userMenu = [
+    { to: "/", icon: FaHome, label: "Home" },
+    { to: "/dashboard", icon: MdOutlineDashboard, label: "Dashboard" },
+    { to: "/vaccines", icon: TbVaccine, label: "Vaccines" },
+    { to: "/doctors", icon: FaUserDoctor, label: "Doctors" },
+    { to: "/reviews", icon: MdReviews, label: "Reviews" },
+    {
+      to: "/dashboard/my-appointment",
+      icon: ImCalendar,
+      label: "My Appointment",
+    },
+    { to: "/logout", icon: RiLogoutCircleLine, label: "Log Out" },
+  ];
+
+  const menuItems = user.is_staff ? adminMenus : userMenu;
   return (
     <>
       <aside className="bg-gradient-to-br from-gray-800 to-gray-900 -translate-x-80 fixed inset-0 z-50 my-4 ml-4 h-[calc(100vh-32px)] w-72 rounded-xl transition-transform duration-300 xl:translate-x-0">
@@ -71,7 +101,7 @@ const Sidebar = () => {
           <ul className="mb-4 flex flex-col gap-1">
             {menuItems.map((items, index) => (
               <li key={index}>
-                <Link aria-current="page" className="" to={items.to}>
+                {/* <Link aria-current="page" className="" to={items.to}>
                   <button
                     className="middle none font-sans font-bold center transition-all disabled:opacity-50 disabled:shadow-none disabled:pointer-events-none text-xs py-3 rounded-lg text-white hover:bg-white/10 active:bg-white/30 w-full flex items-center gap-4 px-4 capitalize"
                     type="button"
@@ -81,7 +111,31 @@ const Sidebar = () => {
                       {items.label}
                     </p>
                   </button>
-                </Link>
+                </Link> */}
+                {items.label === "Log Out" ? (
+                  <button
+                    onClick={logOut}
+                    className="middle none font-sans font-bold center transition-all disabled:opacity-50 disabled:shadow-none disabled:pointer-events-none text-xs py-3 rounded-lg text-white hover:bg-white/10 active:bg-white/30 w-full flex items-center gap-4 px-4 capitalize"
+                    type="button"
+                  >
+                    <items.icon className="w-5 h-5 text-inherit" />
+                    <p className="block antialiased font-sans text-base leading-relaxed text-inherit font-medium capitalize">
+                      {items.label}
+                    </p>
+                  </button>
+                ) : (
+                  <Link aria-current="page" className="" to={items.to}>
+                    <button
+                      className="middle none font-sans font-bold center transition-all disabled:opacity-50 disabled:shadow-none disabled:pointer-events-none text-xs py-3 rounded-lg text-white hover:bg-white/10 active:bg-white/30 w-full flex items-center gap-4 px-4 capitalize"
+                      type="button"
+                    >
+                      <items.icon className="w-5 h-5 text-inherit" />
+                      <p className="block antialiased font-sans text-base leading-relaxed text-inherit font-medium capitalize">
+                        {items.label}
+                      </p>
+                    </button>
+                  </Link>
+                )}
               </li>
             ))}
           </ul>

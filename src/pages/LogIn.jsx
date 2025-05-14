@@ -18,8 +18,9 @@ const LogIn = () => {
   const onSubmit = async (data) => {
     setLoading(true);
     try {
-      await logInUser(data);
-      navigate("/dashboard");
+      const response = await logInUser(data);
+      console.log("response", response);
+      if (response.success) navigate("/dashboard");
       console.log(data);
     } catch (error) {
       console.log(error);

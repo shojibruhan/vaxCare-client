@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import apiClient from "../services/api-client";
+import authApiClient from "../services/auth-api-client";
 
 const useAuth = () => {
   const [user, setUser] = useState(null);
@@ -15,7 +16,6 @@ const useAuth = () => {
 
   useEffect(() => {
     if (authTokens) fetchUserProfile();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [authTokens]);
 
   const handleAPIError = (error, defaultMessage) => {
@@ -39,17 +39,18 @@ const useAuth = () => {
       localStorage.setItem("authTokens", JSON.stringify(response.data));
 
       await fetchUserProfile();
+      return { success: true };
     } catch (error) {
+      console.log(error);
       setErrorMsg(error.response.data?.detail);
+      return { success: false };
     }
   };
 
   //   Fetch User Profile
   const fetchUserProfile = async () => {
     try {
-      const response = await apiClient.get("/auth/users/me/", {
-        headers: { Authorization: `JWT ${authTokens?.access}` },
-      });
+      const response = await authApiClient.get("/auth/users/me/");
       // console.log("user Profile: ", response.data);
       setUser(response.data);
     } catch (error) {

@@ -2,7 +2,8 @@ import React from "react";
 import Virus1 from "../../assets/virus.png";
 import Virus2 from "../../assets/virus2.jpg";
 
-const AppointmentTable = ({ item }) => {
+const AppointmentTable = ({ item, vaccine }) => {
+  console.log("AppointmentTable", vaccine);
   return (
     <>
       <div className="mt-4 md:mt-6 flex flex-col md:flex-row justify-start items-start md:items-center md:space-x-6 xl:space-x-8 w-full">
@@ -13,8 +14,9 @@ const AppointmentTable = ({ item }) => {
         <div className="border-b border-gray-200 md:flex-row flex-col flex justify-between items-start w-full pb-8 space-y-4 md:space-y-0">
           <div className="w-full flex flex-col justify-start items-start space-y-8">
             <h3 className="text-xl dark:text-white xl:text-2xl font-semibold leading-6 text-gray-800">
-              Vaccine Name
+              {vaccine.vaccine_name}
             </h3>
+            <span className="text-xs font-bold">{item.vaccine}</span>
             <div className="flex justify-start items-start flex-col space-y-2">
               <p className="text-sm dark:text-white leading-none text-gray-800">
                 <span className="dark:text-gray-400 text-gray-300 mr-2">

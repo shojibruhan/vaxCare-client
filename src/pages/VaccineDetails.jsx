@@ -4,36 +4,62 @@ import { FiCheck } from "react-icons/fi";
 import { Link, useParams } from "react-router";
 import Virus from "../assets/virus.png";
 import Loading from "../components/alert/Loading";
+import useBooking from "../hooks/useBooking";
 import apiClient from "../services/api-client";
 
 const VaccineDetails = () => {
-  //   const { vaccines } = useFetchVaccines();
+  // const { vaccines } = useFetchVaccines();
   const [vaccine, setVaccine] = useState(null);
   const [isAdding, setAdding] = useState(false);
   const [isAdded, setAdded] = useState(false);
   const [loading, setLoading] = useState(false);
   const { vaccineId } = useParams();
+  const { createAppointment } = useBooking();
 
   useEffect(() => {
     setLoading(true);
     apiClient.get(`/vaccines/${vaccineId}/`).then((res) => {
       setVaccine(res.data);
-      console.log("Item data", res.data.doctor_name);
+      // console.log("Item data", res.data.doctor_name);
       setLoading(false);
     });
   }, [vaccineId]);
 
-  const addToAppointment = () => {
+  useEffect(() => {}, [isAdding, isAdded]);
+
+  const bookAppointment = () => {
     setAdding(true);
-    setTimeout(() => {
+    setAdded(false);
+    // console.log("click: ", vaccine.id, vaccine.first_dose);
+    // console.log("1", isAdding, isAdded);
+    try {
       setAdding(false);
+
+      createAppointment({
+        vaccine: vaccine.id,
+        dose_one: vaccine.first_dose,
+      });
       setAdded(true);
-      setTimeout(() => {
-        setAdded(false);
-      }, 2000);
-    }, 1000);
+      // console.log("2: ", isAdding, isAdded);
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setAdded(false);
+      // console.log("3: ", isAdding, isAdded);
+    }
   };
-  console.log("vaccine", vaccine);
+
+  // const addToAppointment = () => {
+  //   setAdding(true);
+  //   setTimeout(() => {
+  //     setAdding(false);
+  //     setAdded(true);
+  //     setTimeout(() => {
+  //       setAdded(false);
+  //     }, 2000);
+  //   }, 1000);
+  // };
+  // console.log("vaccine", vaccine);
   if (loading && !vaccine)
     return (
       <div className="text-black text-2xl">
@@ -66,7 +92,7 @@ const VaccineDetails = () => {
             ) : (
               <div className="flex mt-8">
                 <button
-                  onClick={addToAppointment}
+                  onClick={bookAppointment}
                   className="uppercase py-2 px-4 rounded-lg bg-pink-500 border-2 border-transparent text-white text-md mr-4 hover:bg-pink-400"
                 >
                   Book An Appontment

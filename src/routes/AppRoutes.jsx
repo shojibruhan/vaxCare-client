@@ -13,6 +13,7 @@ import Booking from "../pages/Booking";
 import Dashboard from "../pages/dashboard/Dashboard";
 import Home from "../pages/home/Home";
 import LogIn from "../pages/LogIn";
+import PaymentSuccess from "../pages/payment/PaymentSuccess";
 import VaccineDetails from "../pages/VaccineDetails";
 import PrivateRoute from "./PrivateRoute";
 const AppRoutes = () => {
@@ -40,6 +41,7 @@ const AppRoutes = () => {
         <Route path="profile" element={<Profile />} />
         <Route path="booking" element={<Booking />} />
         <Route path="my-appointment" element={<Appointment />} />
+        <Route path="payment/success" element={<PaymentSuccess />} />
       </Route>
     </Routes>
   );

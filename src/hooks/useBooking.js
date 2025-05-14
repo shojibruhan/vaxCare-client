@@ -1,21 +1,29 @@
-import { useState } from "react";
-import apiClient from "../services/api-client";
+import authApiClient from "../services/auth-api-client";
 
 const useBooking = () => {
-  const [authTokens, setAuthTokens] = useState(
-    () => JSON.parse(localStorage.getItem("authTokens")).access
-  );
+  // const [authTokens] = useState(
+  //   () => JSON.parse(localStorage.getItem("authTokens"))?.access
+  // );
   const createAppointment = async (userData) => {
     try {
-      const response = await apiClient.post("/bookings/", userData, {
-        headers: { Authorization: `JWT ${authTokens}` },
-      });
+      // console.log(authTokens);
+      const response = await authApiClient.post("/bookings/", userData);
       console.log("createAppointment :", response.data);
     } catch (error) {
       console.log(error);
     }
   };
-  return { createAppointment };
+
+  const getVaccineItem = async (id) => {
+    try {
+      const res = await authApiClient.get(`/vaccines/${id}/`);
+      console.log("getVaccineItem", res.data);
+      return res.data;
+    } catch (error) {
+      console.log("getVaccineItem Error: ", error);
+    }
+  };
+  return { createAppointment, getVaccineItem };
 };
 
 export default useBooking;
