@@ -25,31 +25,31 @@ const VaccineDetails = () => {
     });
   }, [vaccineId]);
 
-  useEffect(() => {}, [isAdding, isAdded]);
+  // useEffect(() => {}, [isAdding, isAdded]);
 
-  const bookAppointment = () => {
+  const bookAppointment = async () => {
     setAdding(true);
-    setAdded(false);
     // console.log("click: ", vaccine.id, vaccine.first_dose);
-    // console.log("1", isAdding, isAdded);
+    console.log("1", isAdding, isAdded);
     try {
-      setAdding(false);
+      // setAdding(false);
 
-      createAppointment({
+      await createAppointment({
         vaccine: vaccine.id,
         dose_one: vaccine.first_dose,
       });
+      setAdding(false);
       setAdded(true);
-      // console.log("2: ", isAdding, isAdded);
+      console.log("2: ", isAdding, isAdded);
     } catch (error) {
       console.log(error);
     } finally {
       setAdded(false);
-      // console.log("3: ", isAdding, isAdded);
+      console.log("3: ", isAdding, isAdded);
     }
   };
-
-  // const addToAppointment = () => {
+  console.log("4: ", isAdding, isAdded);
+  // const bookAppointment = () => {
   //   setAdding(true);
   //   setTimeout(() => {
   //     setAdding(false);
