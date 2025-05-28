@@ -4,6 +4,7 @@ import { FiCheck } from "react-icons/fi";
 import { Link, useParams } from "react-router";
 import Virus from "../assets/virus.png";
 import Loading from "../components/alert/Loading";
+import ReviewSection from "../components/reviews/ReviewSection.jsx";
 import useBooking from "../hooks/useBooking";
 import apiClient from "../services/api-client";
 
@@ -48,7 +49,7 @@ const VaccineDetails = () => {
       console.log("3: ", isAdding, isAdded);
     }
   };
-  console.log("4: ", isAdding, isAdded);
+  // console.log("4: ", isAdding, isAdded);
   // const bookAppointment = () => {
   //   setAdding(true);
   //   setTimeout(() => {
@@ -67,12 +68,12 @@ const VaccineDetails = () => {
       </div>
     );
   return (
-    <main className="dark:bg-gray-800 bg-white relative overflow-hidden h-screen">
+    <main className="dark:bg-gray-800 bg-white relative overflow-hidden">
       <div className="bg-white dark:bg-gray-800 flex relative z-20 items-center overflow-hidden">
         <div className="container mx-auto px-6 flex relative py-16">
           <div className="sm:w-2/3 lg:w-2/5 flex flex-col relative z-20">
             <span className="w-20 h-2 bg-gray-800 dark:bg-white mb-12"></span>
-            <h1 className="font-bebas-neue uppercase text-6xl sm:text-8xl font-black flex flex-col leading-none dark:text-white text-gray-800">
+            <h1 className="font-serif font-bebas-neue uppercase text-6xl sm:text-8xl font-black flex flex-col leading-none dark:text-white text-gray-800">
               {vaccine?.vaccine_name}
               <span className="text-5xl sm:text-7xl"></span>
             </h1>
@@ -116,6 +117,11 @@ const VaccineDetails = () => {
           </div>
         </div>
       </div>
+
+      <div>
+        <ReviewSection />
+      </div>
+
       <Link to="/vaccines">
         <div className="flex items-center gap-3 justify-start ml-20 mt-24">
           <span>
