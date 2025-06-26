@@ -1,17 +1,17 @@
 import React, { useState } from "react";
 import { useForm } from "react-hook-form";
-import ErrorAlert from "../../components/alert/ErrorAlert";
+import { Link, useNavigate } from "react-router";
 import SuccessAlert from "../../components/alert/SuccessAlert";
-import SuccessModal from "../../components/alert/SuccessModal";
-import useAuthContext from "../../hooks/useAuthContext";
 import authApiClient from "../../services/auth-api-client";
 
 const PatientRegistration = () => {
-  const { registerUser, errorMsg } = useAuthContext();
+  // const { registerUser, errorMsg } = useAuthContext();
   const [successMsg, setSuccessMsg] = useState("");
   const [isloading, setloading] = useState(false);
   const [nextPage, setNextPage] = useState(false);
   const [patientInfo, setPatientInfo] = useState();
+  const [errorMsg, setErrorMsg] = useState("");
+  const navigate = useNavigate();
   const {
     register,
     handleSubmit,
@@ -19,41 +19,32 @@ const PatientRegistration = () => {
     formState: { errors },
   } = useForm();
 
-  // const onSubmit = async (data) => {
-  //   setloading(true);
-  //   delete data.confirmPassword;
-  //   console.log(data);
-  //   setPatientInfo(data);
-  //   console.log("patientInfo", patientInfo);
-  //   try {
-  //     const response = await registerUser(data);
-  //     // const response = await authApiClient.post("/patients/", data);
-  //     console.log(response.data);
-  //     setNextPage(true);
-  //     if (response.success) {
-  //       setSuccessMsg(response.message);
-  //     }
-  //   } catch (error) {
-  //     console.log("error: ", error.response.data);
-  //   }
-  // };
-
   const submitPatient = async (data) => {
     console.log("submitPatient: ", data);
+    setloading(true);
     try {
       const response = await authApiClient.post("/patients/", {
-        user: patientInfo,
+        user: data,
+        nid: data.nid,
+        date_of_birth: data.date_of_birth,
+        medical_history: data.medical_history,
       });
       console.log("patient", response.data);
+      console.log("patient", response.data.success);
+      setSuccessMsg("Account created successfully. You can now log in.");
+      navigate("/login");
     } catch (error) {
       console.log(error);
+      setErrorMsg(error);
+    } finally {
+      setloading(false);
     }
   };
 
   return (
     <section className="bg-gray-50 dark:bg-gray-900 p-44">
       <div className="flex flex-col items-center justify-center px-6 py-8 mx-auto md:h-screen lg:py-0">
-        <a
+        {/* <a
           href="#"
           className="flex items-center mb-6 text-2xl font-semibold text-gray-900 dark:text-white"
         >
@@ -63,12 +54,17 @@ const PatientRegistration = () => {
             alt="logo"
           />
           Flowbite
-        </a>
+        </a> */}
         <div className="w-full bg-white rounded-lg shadow dark:border md:mt-0 sm:max-w-md xl:p-0 dark:bg-gray-800 dark:border-gray-700">
           <div className="p-6 space-y-4 md:space-y-6 sm:p-8">
-            {errorMsg && <ErrorAlert error={errorMsg} />}
+            {errorMsg && { errorMsg }}
             {successMsg && <SuccessAlert msg={successMsg} />}
-            {successMsg && <SuccessModal msg={successMsg} />}
+            {successMsg && (
+              <Link to="/login" className="btn btn-outline">
+                Log In
+              </Link>
+            )}
+            {/* {successMsg && <SuccessModal msg={successMsg} />} */}
             <h1 className="text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl dark:text-white">
               Create an account
             </h1>
@@ -153,7 +149,7 @@ const PatientRegistration = () => {
                     type="number"
                     placeholder="+880 123 456 789"
                     className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                    {...register("phone_number ")}
+                    {...register("phone_number")}
                   />
                 </div>
                 <div>
@@ -236,7 +232,7 @@ const PatientRegistration = () => {
                       htmlFor="terms"
                       className="font-light text-gray-500 dark:text-gray-300"
                     >
-                      I accept the{" "}
+                      I accept the
                       <a
                         className="font-medium text-primary-600 hover:underline dark:text-primary-500"
                         href="#"
@@ -247,10 +243,10 @@ const PatientRegistration = () => {
                   </div>
                 </div>
                 <button
-                  type="submit"
+                  // type="submit"
                   className="w-full text-white bg-primary-600 hover:bg-primary-700 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800"
                   // disabled={isloading}
-                  // onClick={() => setNextPage(true)}
+                  onClick={() => setNextPage(true)}
                   // onClick={handleSubmit(onSubmit)}
                 >
                   Next
@@ -310,21 +306,24 @@ const PatientRegistration = () => {
                     htmlFor="text"
                     className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
                   >
-                    Medical History
+                    Medical History{" "}
+                    <span className="text-xs italic text-red-300">
+                      (* Optional)
+                    </span>
                   </label>
-                  <input
-                    id="text"
+                  <textarea
+                    id="medical_history"
                     type="text"
                     placeholder="Astma, Pneumonia"
                     className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                    {...register("medical_history")}
+                    {...register("medical_history", {})}
                   />
                 </div>
 
                 <button
                   type="submit"
                   className="w-full text-white bg-primary-600 hover:bg-primary-700 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800"
-                  // disabled={isloading}
+                  disabled={isloading}
                   onClick={handleSubmit(submitPatient)}
                 >
                   Create an account
